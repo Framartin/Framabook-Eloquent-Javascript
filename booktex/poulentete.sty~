@@ -1,0 +1,282 @@
+%-----------------------------------------------------------------------
+% Chapitre
+\RequirePackage{fncychap,fancyhdr}
+
+\DeclareFixedFont{\ongletfont}{T1}{phv}{b}{n}{24.88pt}
+
+\newcounter{chapitre}
+\renewcommand{\thechapitre}{\arabic{chapitre}}
+
+
+% Presentation des sections
+\setcounter{tocdepth}{4}
+\newlength{\sectiontitleindent}
+\newlength{\subsectiontitleindent}
+\newlength{\subsubsectiontitleindent}
+\newlength{\subsubsubsectiontitleindent}
+\newlength{\subsubsubsubsectiontitleindent}
+
+\setlength{\sectiontitleindent}{-0.5cm}
+\setlength{\subsectiontitleindent}{-.37cm}
+\setlength{\subsubsectiontitleindent}{-.23cm}
+\setlength{\subsubsubsectiontitleindent}{-.17cm}
+\setlength{\subsubsubsubsectiontitleindent}{-.1cm}
+
+
+%  font PostScript Avant-Garde en gras condens�
+\newcommand{\sectionfont}{%
+\sffamily
+}
+
+\renewcommand{\section}{%
+ 	\@startsection%
+ 	{section}%
+ 	{1}%
+ 	{\sectiontitleindent}%
+ 	{-3.5ex plus -1ex minus -.2ex}%
+ 	{2.3ex plus.2ex}%
+{\sectionfont\Large}}
+
+\renewcommand{\subsection}{%
+ 	\@startsection%
+ 	{subsection}%
+ 	{2}%
+ 	{\subsectiontitleindent}%
+ 	{-3ex plus -1ex minus -.2ex}%
+ 	{1.8ex plus.2ex}%
+{\sectionfont\large}}
+
+\renewcommand{\subsubsection}{%
+ 	\@startsection%
+ 	{subsubsection}%
+ 	{3}%
+ 	{\subsubsectiontitleindent}%
+ 	{-2.5ex plus -1ex minus -.2ex}%
+ 	{1.2ex plus.2ex}%
+{\sectionfont\normalsize}}
+
+\renewcommand{\subsubsubsection}{%
+ 	\@startsection%
+ 	{subsubsubsection}%
+ 	{4}%
+ 	{\subsubsubsectiontitleindent}%
+ 	{-2ex plus -1ex minus -.2ex}%
+ 	{0.7ex plus.2ex}%
+{\sectionfont\normalsize}}
+
+\renewcommand{\subsubsubsubsection}{%
+ 	\@startsection%
+ 	{subsubsubsubsection}%
+ 	{5}%
+ 	{\subsubsubsubsectiontitleindent}%
+ 	{-2ex plus -1ex minus -.2ex}%
+ 	{0.7ex plus.2ex}%
+{\sectionfont\sffamily\itshape\fontseries{m}\normalsize}}
+
+%
+% Chapitre 
+%
+\DeclareFixedFont{\chapnumfont}{T1}{phv}{b}{n}{80pt}
+\DeclareFixedFont{\chapchapfont}{T1}{phv}{b}{n}{16pt}
+\DeclareFixedFont{\chaptitfont}{T1}{phv}{b}{n}{24.88pt}
+
+
+%-----------------------------------------------------------------------
+% saut de page avec reprise sur page impaire
+%
+\renewcommand{\cleardoublepage}{
+  \clearpage % termine la page pr�c�dente 
+             % et force l'affichage des toutes les images
+  \ifodd
+  \c@page
+  \else
+  \hbox{}
+  \vspace{\stretch{1}}
+  \thispagestyle{empty}%page vide (sans en-t�te ni pied de page)
+  \newpage
+  \fi
+}
+%-----------------------------------------------------------------------
+
+\renewcommand{\chapter}{%
+  \cleardoublepage
+  \stepcounter{chapitre}
+  \thispagestyle{plain}
+  \global\@topnum\z@
+  \@afterindentfalse
+  \secdef\@chapter\@schapter}
+
+% juste pour � d�bugger
+\newcommand{\dbg@boite}[1]{%
+  {\setlength{\fboxrule}{.2pt}%
+    \setlength{\fboxsep}{-\fboxrule}%
+    \fbox{#1}}}
+\let\dbg@boiteOrig\dbg@boite
+\let\dbg@boite\relax
+
+
+\renewcommand{\@makechapterhead}[1]{%
+  \begin{cadrechap}
+    \dbg@boite{\begin{minipage}[t][6cm][t]{.75\linewidth}
+        \ifminisommaire\minisommaire\else\mbox{}\fi
+      \end{minipage}}%
+    \dbg@boite{\begin{minipage}[t]{.25\linewidth}
+        \begin{flushright}%
+          {\chapchapfont\chaptername}\\[1cm]
+          {\chapnumfont\thechapter}
+        \end{flushright}
+      \end{minipage}}%
+  \begin{flushright}
+    \setlength{\lineskip}{.7\baselineskip}\chaptitfont#1
+  \end{flushright}
+  \end{cadrechap}\par\vspace*{4cm}}
+
+\renewcommand{\@makeschapterhead}[1]{%   
+\fancyhead[LO]{\sectionfont #1}
+\fancyhead[RE]{\sectionfont #1}
+  \begin{cadrechap}
+    \vspace*{6cm}
+    \mbox{}\hfill{\chaptitfont#1}% titre du chapitre
+  \end{cadrechap}\par\vspace*{5cm}}
+
+
+\newenvironment{cadrechap}%
+{\begin{list}{}{%
+      \setlength{\leftmargin}{0pt}%
+      \setlength{\rightmargin}{-0.5cm}% on se met au large
+      \setlength{\itemindent}{0pt}%
+      \setlength{\labelsep}{0pt}%
+    }\item}%
+  {\end{list}}
+
+%=======================================================================
+% 
+% parties
+%
+%=======================================================================
+\newcommand{\partfont}{%
+  \fontencoding{T1}%
+  \fontfamily{phv}%
+  \fontseries{bc}%
+  \fontshape{n}%
+  \fontsize{32}{30}%
+  \selectfont}
+
+\DeclareFixedFont{\partnumfont}{T1}{phv}{bc}{n}{80}
+%\DeclareFixedFont{\partfont}{T1}{phv}{bc}{n}{32}
+
+\renewcommand\part%
+{%
+  \let\@font@warningORIG\@font@warning
+  \renewcommand{\@font@warning}[1]{}
+   \cleardoublepage
+  \thispagestyle{empty}% � la place de plain par d�faut
+  \@tempswafalse
+  \null\vfil
+  \secdef\@part\@spart}
+
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    \markboth{}{}%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >-2\relax
+       \partnumfont \thepart % modif font
+       \par
+       \vskip 50\p@% 50 au lieu de 20...
+     \fi
+     \partfont #2\par}% modif font
+    \@endpart%
+  \let\@font@warning\@font@warningORIG}
+
+  
+% entete
+\addtolength{\headheight}{4pt} % augmenter legerement l'en tete
+                                 % pour les overfull vbox
+
+
+\pagestyle{fancy}
+
+
+\renewcommand{\sectionmark}[1]{\markright{%
+    \sectionfont
+   \small \thesection #1}}
+\renewcommand{\chaptermark}[1]{\markboth{%
+   \small \sectionfont #1}{}}
+
+%
+% les ent�tes du document par d�faut
+%
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+
+%
+% les premières pages de chapitres
+%
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \if@frontmatter% introduction
+     \fancyfoot[C]{\textsc{\thepage}}
+  \else
+    \fancyfoot[C]{\thepage}
+  \fi
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+%
+% les trois parties (front, main et back)
+%
+
+\newif\if@frontmatter 
+
+\renewcommand\frontmatter{%
+  \cleardoublepage
+  \setcounter{chapitre}{1}
+  \@frontmattertrue
+  \@mainmatterfalse
+  \pagenumbering{roman}
+  % page dans l'index en petite capitale
+  \let\indexORI\index
+  \renewcommand{\index}[1]{\indexORI{##1|textsc}}
+  \fancyfoot{}
+  \fancyhead[LE,RO]{\bfseries\textsc{\thepage}}
+  \fancyhead[LO]{\rightmark}
+  \fancyhead[RE]{\leftmark}
+}
+
+
+
+\renewcommand\mainmatter{%
+  \cleardoublepage
+  \@mainmattertrue
+  \@frontmatterfalse
+  \pagenumbering{arabic}
+  \let\index\indexORI
+  \fancyfoot{}
+  \fancyhead[LE]{\bfseries\thepage}
+  \fancyhead[RO]{\bfseries\thepage}
+  \fancyhead[LO]{\rightmark}
+  \fancyhead[RE]{\leftmark}}
+
+\renewcommand\backmatter{%
+  \let\minisommaire\null
+  \cleardoublepage
+  \@mainmatterfalse
+  \@frontmatterfalse
+  \fancyfoot{}
+  \fancyhead[LE]{\bfseries\thepage}
+  \fancyhead[RO]{\bfseries\thepage}
+  \fancyhead[LO]{\rightmark}
+  \fancyhead[RE]{\leftmark}
+  \renewcommand{\toclevel@chapter}{-1}% pour avoir le bookmark au m�me niveau
+                                      % que part
+}

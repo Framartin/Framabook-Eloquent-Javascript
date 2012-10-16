@@ -1,0 +1,168 @@
+% Class FramateX inspirée très fortement par la framaquette
+% de Vincent Lozano & de Didier Roche, retravaillée par
+% David Dauvergne (la Poule ou l'Oeuf) puis par
+% Christophe Masutti (Framasoft)
+
+\newcommand{\pouleVersion}{0.1}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{FramateX}[2008/11/06]
+
+%-----------------------------------------------------------------------
+%
+% Avec des si...
+%
+\newif\ifversionenligne
+%
+\versionenlignetrue
+\newif\ifminisommaire
+\minisommairetrue
+%
+
+\newif\if@versionreport \@versionreportfalse
+
+
+
+
+%-----------------------------------------------------------------------
+% encodage
+\RequirePackage[utf8]{inputenc}
+%-----------------------------------------------------------------------
+%
+% Declaration des options
+%
+\DeclareOption{draft}{\brouillontrue\PassOptionsToClass{draft}{book}}
+\DeclareOption{versionpapier}{\versionenlignefalse} 
+\DeclareOption{versionenligne}{\versionenlignetrue}
+\DeclareOption{sansminisommaire}{\minisommairefalse}
+\DeclareOption{versionreport}{\@versionreporttrue}
+
+\if@versionreport
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+\else
+\DeclareOption*{\PassOptionsToClass{mer\CurrentOption}{book}}
+\fi
+%
+% Exécution des options
+%
+\ProcessOptions
+%
+\if@versionreport
+\LoadClass[a4paper]{report}
+\else
+\LoadClass[a4paper,twoside]{book}
+\fi
+
+
+
+%-----------------------------------------------------------------------
+\RequirePackage{FramateX}
+
+
+%----------------------------------------------------------------------
+%
+% les petits paquets à charger
+%
+\RequirePackage[frenchb]{babel}
+\RequirePackage{csquotes}
+
+% Polices
+\RequirePackage{textcomp,relsize}
+\RequirePackage{mflogo,bbm,pifont}
+%\RequirePackage{fouriernc}
+\RequirePackage{times}
+\RequirePackage{helvet}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+
+% caractères
+%\RequirePackage{xspace}	%espace
+\RequirePackage{soul}	%Souligner
+
+% base 
+\RequirePackage{enumerate}	%listes
+
+% graphics 
+\RequirePackage{picins}	%figure dans un paragraphe
+\RequirePackage{subfigure}	%subfigure dans figure
+\RequirePackage{wrapfig}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{framed} 
+
+% les tableaux
+\RequirePackage{array,multirow,colortbl,longtable,multicol}
+
+% légendes
+\RequirePackage[labelsep=none]{caption}
+
+% Math
+\RequirePackage{amsmath,mathrsfs}
+
+% Index
+\RequirePackage{makeidx,index}
+
+% Outils
+\RequirePackage{calc}
+\RequirePackage{ifthen}
+\RequirePackage{float} 
+
+
+
+
+
+% reinitialiser le compteur de notes de bas de page a chaque page
+\RequirePackage[perpage]{footmisc}
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+%
+% hyperref qui pète les ouilles
+%
+\def\Hy@WarningNoLine#1{}
+\def\Hy@Warning#1{}
+%-----------------------------------------------------------------------
+
+
+%---------------------------------------------------------------------
+%
+% pour changer les marges localement (merci Marie Paul ;-)
+%
+%----------------------------------------------------------------------
+
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
+
+\newenvironment{agrandirmarges}[2]{%
+  \begin{list}{}{%
+      \setlength{\topsep}{0pt}%
+      \setlength{\listparindent}{\parindent}%
+      \setlength{\itemindent}{\parindent}%
+      \setlength{\parsep}{0pt plus 1pt}%
+      \checkoddpage%
+      \ifcpoddpage
+        \setlength{\leftmargin}{-#1}\setlength{\rightmargin}{-#2}
+      \else
+        \setlength{\leftmargin}{-#2}\setlength{\rightmargin}{-#1}
+      \fi}\item }%
+  {\end{list}}
+
+
+%-----------------------------------------------------------------------
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+\AtEndDocument{%
+  }
+
+
+%
+% fin du fichier
+%
+\endinput

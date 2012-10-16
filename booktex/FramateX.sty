@@ -1,0 +1,344 @@
+% Style FramateX inspiré très fortement par la framaquette
+% de Vincent Lozano & de Didier Roche, retravaillé par
+% David Dauvergne (la Poule ou l'Oeuf) puis par
+% Christophe Masutti (Framasoft)
+
+
+% gestion des index, biblio, glossaire...
+
+
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+% Couleurs
+\RequirePackage{color}
+\RequirePackage{xcolor}
+\definecolor{fondgrisclair}{RGB}{232,232,232}
+%-----------------------------------------------------------------------
+% encarts
+
+
+% environnement encart
+
+
+\newlength{\marginencart}
+
+%---------------------------------
+% environnement encart fond gris
+
+
+%environnement de l'encart gris
+\newenvironment{encart}{%
+ \def\FrameCommand{\fcolorbox{fondgrisclair}{fondgrisclair}}%premiere couleur = cadre, la seconde = fond
+\setlength{\fboxrule}{10pt}%epaisseur du cadre
+\setlength{\fboxsep}{0pt}%distance du texte par rapport au cadre
+  \MakeFramed{\setlength{\hsize}{\textwidth-0.8pt-20pt-2\marginencart} \FrameRestore}}%
+{\endMakeFramed}
+
+%titre de l'encart gris
+\newcommand{\titrencartgris}[1]
+{\noindent{{\textbf{#1}}}}
+%---------------------------------
+
+%Encarts avec icones
+
+\newcommand{\titrencart}[1]
+{\indent{{\textsc{#1}}}}
+
+\newenvironment{leftbarencart}{%
+  \def\FrameCommand{\color{black}\vrule width 0.8pt \hspace{10pt}}%
+  \setlength{\marginencart}{25pt}
+  \MakeFramed {\setlength{\hsize}{\dimexpr\textwidth-0.8pt-10pt-2\marginencart} \FrameRestore}}%
+ {\endMakeFramed}
+ 
+% création d'une image pour le permier paragraphe d'un encart
+% L'image se choisi au moment de créer l'encart dans le texte
+% (voir dans le dossier /images)
+\newlength{\padnota}
+\newlength{\larnota}
+\newlength{\indnota}
+\newlength{\largligne}
+
+\newcommand{\encarticone}[1]{
+\setlength{\padnota}{5pt}
+\setlength{\larnota}{10mm}
+\setlength{\indnota}{-10pt}
+\setlength{\largligne}{\textwidth-\indnota}
+\parshape=2
+\indnota\largligne
+0pt\textwidth\noindent%
+\raisebox{-\larnota+3mm}[0pt][0pt]{%
+  \makebox[0pt][r]{%
+  \includegraphics[width=8mm,height=8mm]{images/encarts/#1}%
+  \hspace*{\padnota}}}%
+}
+
+
+% figure dans l'encart
+\newlength{\enccaptionbottomskip}
+\newlength{\enccaptiontopskip}
+\newlength{\encfigtopskip}
+\setlength{\enccaptionbottomskip}{12pt}
+\setlength{\enccaptiontopskip}{5pt}
+\setlength{\encfigtopskip}{15pt}
+
+\newenvironment{encfig}{%
+  \refstepcounter{figure}%
+  \vskip\encfigtopskip%
+  }%
+{%
+  }
+
+\newcommand{\enccaptionfig}[1]{%
+  \\[\enccaptiontopskip]%
+  \figurename~\thefigure{} \CaptionSeparator #1\\[\enccaptionbottomskip]}
+
+\newenvironment{enctab}{%
+  \refstepcounter{table}%
+  \vskip\encfigtopskip%
+  }%
+{%
+  }
+  
+% table dans l'encart
+\newcommand{\enccaptiontab}[1]{%
+  \\[\enccaptiontopskip]%
+  \tablename~\thetable{} \CaptionSeparator #1\\[\enccaptionbottomskip]}
+
+
+%-----------------------------------------------------------------------
+% compatibilité avec french
+\let\Numero\No
+\let\numero\no
+\ifx\undefined\up
+\let\up\fup
+\fi
+
+%-----------------------------------------------------------------------
+% pour changer le nom des chapitres en annexes
+\let\appendixORIG\appendix
+\renewcommand{\appendix}{%
+  \appendixORIG%
+  \renewcommand{\chaptername}{\appendixname}%
+}
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+% épigraphe
+\usepackage{epigraph}
+
+% configuration des épigraphes
+% épaisseur triat de séparation
+\renewcommand{\epigraphrule}{0pt} 
+
+% taille du texte de l'épigraphe
+%\renewcommand{\epigraphsize}{\footnotesize}
+
+% largeur de l'épigraphe
+\setlength{\epigraphwidth}{.5\textwidth}
+
+%-----------------------------------------------------------------------
+% lettrines
+\usepackage{lettrine} 
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+
+%-----------------------------------------------------------------------
+% saut interparagraphe
+\setlength{\parskip}{4pt plus 4pt minus 2pt}
+%-----------------------------------------------------------------------
+
+
+%-----------------------------------------------------------------------
+% Citations
+
+\renewenvironment{quotation}{\begin{list}{}{%
+\itshape
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{1.2cm}%
+\addtolength{\rightmargin}{1.2cm}%
+}\item }{\end{list}}
+
+
+%-----------------------------------------------------------------------
+% listes
+
+\renewenvironment{itemize}{\setlength{\parskip}{0pt}}{\endlist}
+
+%-----------------------------------------------------------------------
+% Table des figures
+\renewcommand{\listoffigures}[1]{%
+	\setlength{\parskip}{0pt plus 1.0pt}%
+    \if@twocolumn%
+        \@restonecoltrue \onecolumn%
+    \else%
+        \@restonecolfalse%
+    \fi%
+      \chapter*{#1
+      	\@mkboth{#1}{#1}}%suppression de uppercase
+    \@starttoc{lof}%
+    \if@restonecol%
+        \twocolumn%
+    \fi%
+    \setlength{\parskip}{4pt plus 4pt minus 2pt}%
+}
+
+%-----------------------------------------------------------------------
+% liste des tableaux 
+
+\renewcommand{\listoftables}[1]{%
+	\setlength{\parskip}{0pt plus 1.0pt}%
+    \if@twocolumn%
+        \@restonecoltrue \onecolumn%
+    \else%
+        \@restonecolfalse%
+    \fi%
+      \chapter*{#1
+      	\@mkboth{#1}{#1}}%suppression de uppercase
+    \@starttoc{lot}%
+    \if@restonecol%
+        \twocolumn%
+    \fi%
+    \setlength{\parskip}{4pt plus 4pt minus 2pt}%
+}
+
+%-----------------------------------------------------------------------
+% Table des matières
+
+\renewcommand{\tableofcontents}[1]{\footnotesize%
+  \setcounter{tocdepth}{2}
+  \setlength{\parskip}{1.0pt plus 2.0pt}
+  \if@twocolumn
+  \@restonecoltrue\onecolumn
+  \else
+  \@restonecolfalse
+  \fi
+  \chapter*{#1
+    \@mkboth{#1}{#1}}%suppression de uppercase
+  \@starttoc{toc}%
+  \if@restonecol%
+  \twocolumn%
+  \fi%
+  \setlength{\parskip}{4pt plus 4pt minus 2pt}
+}
+%-----------------------------------------------------------------------
+% index
+
+% la création de l'index se fait sans makeindex 
+% mais en utilisant le package makeidx
+
+\makeatletter
+\renewenvironment{theindex}
+               {\columnseprule \z@
+                \columnsep 35\p@
+                \begin{multicols}{2}%
+                \parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem
+                \footnotesize
+                \raggedright}
+               {\end{multicols}}
+\makeatother
+
+
+
+
+%--------------------------------
+
+
+% titre 4 et 5
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\makeatletter
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@arabic\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-2.25ex\@plus -1ex \@minus -.2ex}
+                                     {0.1ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{4}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+
+\newcounter{subsubsubsubsection}[subsubsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsubsection .\@arabic\c@subsubsubsubsection}
+\newcommand\subsubsubsubsection{\@startsection{subsubsubsubsection}{5}{\z@}%
+                                   {-2.25ex\@plus -1ex \@minus -.2ex}
+                                   {0.1ex \@plus .2ex}%
+                                   {\normalfont\normalsize\bfseries}}
+
+\newcommand*\l@subsubsubsubsection{\@dottedtocline{5}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsubsectionmark}[1]{}
+
+\renewcommand\paragraph{\@startsection{paragraph}{6}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{7}{\parindent}%
+                                       {3.25ex \@plus1ex \@minus .2ex}%
+                                       {-1em}%
+                                      {\normalfont\normalsize\bfseries}}
+\renewcommand*\l@paragraph{\@dottedtocline{6}{10em}{5em}}
+\renewcommand*\l@subparagraph{\@dottedtocline{7}{12em}{6em}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@subsubsubsection{5}
+\def\toclevel@paragraph{6}
+\def\toclevel@subparagraph{7}
+\makeatother
+
+%------------------------------------------------------
+%-----------------------------------------------------------------------
+% remize à zéro du compteur des chapitres pour une nouvelle partie
+\usepackage{remreset} 
+\makeatletter 
+\@addtoreset{chapter}{part} 
+\makeatother
+%--
+
+%-----------------------------------------------------------------------
+% indentation début de paragraphe
+\parindent 8pt
+
+%-----------------------------------------------------------------------
+% interligne
+%\renewcommand{\baselinestretch}{1.2}
+\usepackage{setspace}           % Change l'interligne en épargnant les footnotes, captions, etc.
+\setstretch{1.1}                % Attention, c'est presque de l'interligne double
+
+
+
+
+% veuves orphelines
+\widowpenalty=10000 % empeche au maximum la coupure avant la derniere ligne
+\clubpenalty=10000  % empeche au maximum la coupure apres la premiere ligne
+\raggedbottom       % empeche l'etirement des ressorts verticaux
+
+
+% Définition des distances
+\setlength{\doublerulesep}{\arrayrulewidth}
+
+%-----------------------------------------------------------------------
+
+% saut interparagraphe (voir aussi pour tables des matières, listes des figures...)
+%\setlength{\parskip}{4pt plus 4pt minus 2pt}
+
+
+
+%-----------------------------------------------------------------------
+% divers
+\newcommand{\pluspetqu}{<}
+\newcommand{\plusgrtqu}{>}
+\newcommand{\eperlu}{\&}
+\newcommand{\diese}{\#}
+\newcommand{\et}{&}
+
+
+%----------------------------------------------------------------------
+%----------------------------------------------------------------------
+
+

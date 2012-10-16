@@ -1,0 +1,153 @@
+% les compteurs et leurs représentations se font directement dans
+% la poule (section, sousection, numéro paragraphe...)
+
+%-----------------------------------------------------------------------
+% saut interparagraphe (voir aussi pour tables des matières, listes des figures...)
+%\setlength{\parskip}{4pt plus 4pt minus 2pt}
+
+%-----------------------------------------------------------------------
+% Citations
+
+\renewenvironment{quotation}{\begin{list}{}{%
+\itshape
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{1.2cm}%
+\addtolength{\rightmargin}{1.2cm}%
+}\item }{\end{list}}
+
+
+%-----------------------------------------------------------------------
+% listes
+
+\renewenvironment{itemize}{\setlength{\parskip}{0pt}}{\endlist}
+
+%-----------------------------------------------------------------------
+% Table des figures
+\renewcommand{\listoffigures}[1]{%
+	\setlength{\parskip}{0pt plus 1.0pt}%
+    \if@twocolumn%
+        \@restonecoltrue \onecolumn%
+    \else%
+        \@restonecolfalse%
+    \fi%
+      \chapter*{#1
+      	\@mkboth{#1}{#1}}%suppression de uppercase
+    \@starttoc{lof}%
+    \if@restonecol%
+        \twocolumn%
+    \fi%
+    \setlength{\parskip}{4pt plus 4pt minus 2pt}%
+}
+
+%-----------------------------------------------------------------------
+% liste des tableaux 
+
+\renewcommand{\listoftables}[1]{%
+	\setlength{\parskip}{0pt plus 1.0pt}%
+    \if@twocolumn%
+        \@restonecoltrue \onecolumn%
+    \else%
+        \@restonecolfalse%
+    \fi%
+      \chapter*{#1
+      	\@mkboth{#1}{#1}}%suppression de uppercase
+    \@starttoc{lot}%
+    \if@restonecol%
+        \twocolumn%
+    \fi%
+    \setlength{\parskip}{4pt plus 4pt minus 2pt}%
+}
+
+%-----------------------------------------------------------------------
+% Table des matières
+
+\renewcommand{\tableofcontents}[1]{\footnotesize%
+  \setcounter{tocdepth}{2}
+  \setlength{\parskip}{1.0pt plus 2.0pt}
+  \if@twocolumn
+  \@restonecoltrue\onecolumn
+  \else
+  \@restonecolfalse
+  \fi
+  \chapter*{#1
+    \@mkboth{#1}{#1}}%suppression de uppercase
+  \@starttoc{toc}%
+  \if@restonecol%
+  \twocolumn%
+  \fi%
+  \setlength{\parskip}{4pt plus 4pt minus 2pt}
+}
+%-----------------------------------------------------------------------
+% index
+
+% la création de l'index se fait sans makeindex 
+% mais en utilisant le package makeidx
+
+\makeatletter
+\renewenvironment{theindex}
+               {\columnseprule \z@
+                \columnsep 35\p@
+                \begin{multicols}{2}%
+                \parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem
+                \footnotesize
+                \raggedright}
+               {\end{multicols}}
+\makeatother
+
+% groupe de lettres
+\newcommand{\indexlettergroup}[1]{\textbf{#1}}
+
+% séparation des items
+\newcommand{\indexseparator}[1]{, }
+
+
+%-----------------------------------------------------------------------
+% bibliographie
+
+
+% titre 4 et 5
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\makeatletter
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@arabic\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-2.25ex\@plus -1ex \@minus -.2ex}
+                                     {0.1ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{4}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+
+\newcounter{subsubsubsubsection}[subsubsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsubsection .\@arabic\c@subsubsubsubsection}
+\newcommand\subsubsubsubsection{\@startsection{subsubsubsubsection}{5}{\z@}%
+                                   {-2.25ex\@plus -1ex \@minus -.2ex}
+                                   {0.1ex \@plus .2ex}%
+                                   {\normalfont\normalsize\bfseries}}
+
+\newcommand*\l@subsubsubsubsection{\@dottedtocline{5}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsubsectionmark}[1]{}
+
+\renewcommand\paragraph{\@startsection{paragraph}{6}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{7}{\parindent}%
+                                       {3.25ex \@plus1ex \@minus .2ex}%
+                                       {-1em}%
+                                      {\normalfont\normalsize\bfseries}}
+\renewcommand*\l@paragraph{\@dottedtocline{6}{10em}{5em}}
+\renewcommand*\l@subparagraph{\@dottedtocline{7}{12em}{6em}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@subsubsubsection{5}
+\def\toclevel@paragraph{6}
+\def\toclevel@subparagraph{7}
+\makeatother

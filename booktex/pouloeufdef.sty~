@@ -1,0 +1,38 @@
+%-----------------------------------------------------------------------
+
+
+%-----------------------------------------------------------------------
+
+%-----------------------------------------------------------------------
+% saut interparagraphe
+\setlength{\parskip}{4pt plus 4pt minus 2pt}
+%-----------------------------------------------------------------------
+
+%-----------------------------------------------------------------------
+% remize à zéro du compteur des chapitres pour une nouvelle partie
+\usepackage{remreset} 
+\makeatletter 
+\@addtoreset{chapter}{part} 
+\makeatother
+%--
+
+%-----------------------------------------------------------------------
+% indentation début de paragraphe
+\parindent 8pt
+
+%-----------------------------------------------------------------------
+% couleur du fond 
+\definecolor{backgroundcolor}{rgb}{1,1,1}
+
+%-----------------------------------------------------------------------
+% interligne
+\renewcommand{\baselinestretch}{0.9}
+
+% veuves orphelines
+\widowpenalty=10000 % empeche au maximum la coupure avant la derniere ligne
+\clubpenalty=10000  % empeche au maximum la coupure apres la premiere ligne
+\raggedbottom       % empeche l'etirement des ressorts verticaux
+
+
+% Définition des distances
+\setlength{\doublerulesep}{\arrayrulewidth}
