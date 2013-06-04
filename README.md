@@ -1,6 +1,11 @@
 Framabook-Eloquent-Javascript
 =============================
 
+Le projet de ce framabook a été repris depuis le début. Ce dépot est donc déprécié et pas à jour.
+Les sources de la version papier seront bientôt disponibles directement sur http://framabook.org/14-javascript-eloquent/
+
+=============================
+
 Sources LaTeX de la publicaton du livre Eloquent JavaScript dans la collection framabook
 
 La version interactive originale se trouve sur ce dépôt : https://github.com/Pandark/Eloquent-Javascript-translation
